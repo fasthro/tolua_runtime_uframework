@@ -79,6 +79,9 @@ gcc -m64 -O2 -std=gnu99 -shared \
     luasocket/udp.c \
     luasocket/wsocket.c \
     luasocket/compat.c \
+    sproto/sproto.c \
+    sproto/lsproto.c \
+    lua-crypt.c \
     -o $outpath/x86_64/tolua.dll \
     -I./ \
     -I$luapath/src \

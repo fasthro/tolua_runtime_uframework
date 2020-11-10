@@ -40,6 +40,9 @@ LOCAL_SRC_FILES :=	../../tolua.c \
  					../../luasocket/udp.c \
  					../../luasocket/usocket.c \
  					../../luasocket/compat.c \
+ 					../../sproto/sproto.c \
+				    ../../sproto/lsproto.c \
+				    ../../lua-crypt.c \
 					
 LOCAL_WHOLE_STATIC_LIBRARIES += libluajit
 include $(BUILD_SHARED_LIBRARY)
