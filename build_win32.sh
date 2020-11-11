@@ -46,10 +46,22 @@ case $luapath in
     ;;
 esac
 
-cp src/$lualibname.a ../window/x86/$lualibname.a
-mingw32-make clean
-
 cd ..
+
+# build pbc > begin
+cd pbc
+case $luapath in 
+    $luacdir)
+        mingw32-make mingw BUILDMODE=static CC="gcc -m32 -std=gnu99"
+    ;;
+    $luajitdir)
+        mingw32-make BUILDMODE=static CC="gcc -m32 -O2"
+    ;;
+esac
+cp build/libpbc.a ../window/x86_64/libpbc.a
+mingw32-make clean
+cd ..
+# build pbc > end
 
 gcc -m32 -O2 -std=gnu99 -shared \
 	int64.c \
@@ -82,13 +94,20 @@ gcc -m32 -O2 -std=gnu99 -shared \
 	sproto/sproto.c \
 	sproto/lsproto.c \
 	lua-crypt.c \
+	pbc/binding/lua53/pbc-lua53.c \
 	-o $outpath/x86/tolua.dll \
 	-I./ \
  	-I$luapath/src \
 	-Icjson \
 	-Iluasocket \
+	-Isproto \
+	-Ipbc \
+	-Ipbc/src \
 	-Ilpeg \
 	-lws2_32 \
- 	-Wl,--whole-archive window/x86/$lualibname.a -Wl,--no-whole-archive -static-libgcc -static-libstdc++
+ 	-Wl,--whole-archive \
+ 	window/x86/$lualibname.a \
+ 	window/x86/libpbc.a \
+ 	-Wl,--no-whole-archive -static-libgcc -static-libstdc++
 
 echo "build tolua.dll success" 	
